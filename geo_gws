@@ -1,0 +1,55 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "GEO - SES GW10 - St John"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-52.79, 47.54]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "GEO - SES GW11 - BTZ"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [6.32, 49.69]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "GEO - SES GW12 - Hawley"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-75.13, 41.48]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "GEO - SES GW17 - Hong Kong"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [114.22, 22.19]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "GEO - SES GW42 - Lurin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-76.84, -12.29]
+      }
+    }
+  ]
+}
