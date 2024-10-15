@@ -1,0 +1,125 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW1 - Sunset Beach"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [21.67, -158.03]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW2 - Phoenix"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.56, -112.33]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW3 - Longovilo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-33.95, -71.39]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW4 - Dakar"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [14.72, -17.12]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW5 - Sharfia"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.82, 22.68]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW7 - Betzdorf"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [49.69, 6.32]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW7 - Dubbo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-32.25, 148.61]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW9 - Merridin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-31.47, 118.29]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW31 - Sintra"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.86, -9.28]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW32 - Kadapa"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [14.82, 78.66]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW37 - Cook Island"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-21.23, -159.77]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW40 - Lurin"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-12.29, -76.84]
+      }
+    }
+  ]
+}
