@@ -1,0 +1,75 @@
+from(bucket: "ses_meo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r._measurement == "PG.CPE_STATUS")
+  |> filter(fn: (r) => r["_field"] == "access_status" or r["_field"] == "data_status" or r["_field"] == "operational_status")
+  |> filter(fn: (r) => r.mg_id == "2")
+  |> filter(fn: (r) => r["tid"] == "109" or r["tid"] == "157" or r["tid"] == "163" or r["tid"] == "200" or r["tid"] == "229" or  r["tid"] == "235" or r["tid"] == "241" or r["tid"] == "277" or r["tid"] == "289" or r["tid"] == "295" or r["tid"] == "301" or r["tid"] == "325" or r["tid"] == "331" or r["tid"] == "349" or r["tid"] == "353" or r["tid"] == "357" or r["tid"] == "361" or r["tid"] == "389" or r["tid"] == "393" or r["tid"] == "399" or r["tid"] == "403" or r["tid"] == "407" or r["tid"] == "411" or r["tid"] == "419" or r["tid"] == "423" or r["tid"] == "431" or r["tid"] == "435" or r["tid"] == "439" or r["tid"] == "478" or r["tid"] == "97" or r["tid"] == "16" or r["tid"] == "161" or r["tid"] == "19" or r["tid"] == "26" or r["tid"] == "27" or r["tid"] == "28" or r["tid"] == "30" or r["tid"] == "31" or r["tid"] == "33" or r["tid"] == "34" or r["tid"] == "37" or r["tid"] == "38" or r["tid"] == "40" or r["tid"] == "42" or r["tid"] == "46" or r["tid"] == "47" or r["tid"] == "48" or r["tid"] == "49" or r["tid"] == "56" or r["tid"] == "58" or r["tid"] == "68" or r["tid"] == "76" or r["tid"] == "87" or r["tid"] == "482" or r["tid"] == "90")
+  |> map(fn: (r) => ({
+      _time: r._time,
+      _value: r._value,
+      tid: r.tid,
+      mg_id: r.mg_id,
+      dcm_id: r.dcm_id,
+      el_id: r.el_id,
+      cpe_name: 
+        if r.tid == "109" then "MAR-FSY-00001"
+        else if r.tid == "157" then "MAR-SSD-00001"
+        else if r.tid == "163" then "MAR-SVW-00001"
+        else if r.tid == "200" then "MAR-ENC-00001"
+        else if r.tid == "229" then "MAR-DIV-00001"
+        else if r.tid == "235" then "MAR-FAN-00001"
+        else if r.tid == "241" then "MAR-ORC-00001"
+        else if r.tid == "265" then "MAR-LIR-00001"
+        else if r.tid == "277" then "MAR-OPE-00001"
+        else if r.tid == "289" then "MAR-XP1-00001"
+        else if r.tid == "295" then "MAR-SIN-00001"
+        else if r.tid == "301" then "MAR-MAG-00001"
+        else if r.tid == "325" then "MAR-ILM-00001"
+        else if r.tid == "331" then "MAR-XP2-00001"
+        else if r.tid == "349" then "MAR-VNZ-00001"
+        else if r.tid == "353" then "MAR-VLR-00001"
+        else if r.tid == "357" then "MAR-FIR-00001"
+        else if r.tid == "361" then "MAR-SNR-00001"
+        else if r.tid == "389" then "MAR-PAN-00001"
+        else if r.tid == "393" then "MAR-TRE-00001"
+        else if r.tid == "399" then "MAR-MAC-00001"
+        else if r.tid == "403" then "MAR-BRZ-00001"
+        else if r.tid == "407" then "MAR-SME-00001"
+        else if r.tid == "411" then "MAR-SNS-00001"
+        else if r.tid == "419" then "MAR-TOS-00001"  
+        else if r.tid == "423" then "MAR-SPL-00001"                
+        else if r.tid == "431" then "MAR-CON-00001"
+        else if r.tid == "435" then "MAR-STE-00001"
+        else if r.tid == "439" then "MAR-RAD-00001"
+        else if r.tid == "478" then "MAR-PRI-00001"
+        else if r.tid == "97" then "MAR-WON-00001"
+        else if r.tid == "16" then "TWN-000-00048"
+        else if r.tid == "161" then "AUS-000-00008"
+        else if r.tid == "19" then "RIG-UNK-00289"
+        else if r.tid == "26" then "TWN-000-00043"
+        else if r.tid == "27" then "TWN-000-00057"
+        else if r.tid == "28" then "TWN-000-00052"
+        else if r.tid == "30" then "NFK-000-00011"
+        else if r.tid == "31" then "NFK-000-00007-03"
+        else if r.tid == "33" then "TWN-000-00040"
+        else if r.tid == "34" then "TWN-000-00027"
+        else if r.tid == "37" then "CKH-000-00015"
+        else if r.tid == "38" then "CKH-000-00012"
+        else if r.tid == "40" then "CKH-000-00010"
+        else if r.tid == "42" then "CKH-000-00011"
+        else if r.tid == "46" then "AUS-000-00018"
+        else if r.tid == "47" then "PNG-000-00067-01"
+        else if r.tid == "48" then "AUS-000-00020"
+        else if r.tid == "49" then "RIG-UNK-00293"
+        else if r.tid == "56" then "TWN-000-00020"
+        else if r.tid == "58" then "NRU-YAR-0008"
+        else if r.tid == "68" then "TWN-000-00025"
+        else if r.tid == "76" then "PHL-000-00020"
+        else if r.tid == "87" then "PHL-000-00019"
+        else if r.tid == "90" then "RIG-UNK-00332"
+        else if r.tid == "482" then "MAR-ECO-00001"
+        else "Unknown"
+  }))
+  |> group(columns: ["tid", "cpe_name", "mg_id", "dcm_id", "el_id"])
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)
+  |> yield(name: "operational_status")
