@@ -1,0 +1,37 @@
+from(bucket: "ses_meo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r._measurement == "PG.CPE_STATUS")
+  |> filter(fn: (r) => r["_field"] == "operational_status" or r["_field"] == "access_status" or r["_field"] == "data_status")
+  |> filter(fn: (r) => r.mg_id == "4")
+  |> filter(fn: (r) => contains(value: r.tid, set: ["22", "21", "26", "30", "31", "32", "33", "37", "42", "44", "47", "58", "59", "61", "62", "64", "65", "68"]))  // FixedData O3B Classic
+  |> map(fn: (r) => ({
+      _time: r._time,
+      _value: r._value,
+      tid: r.tid,
+      mg_id: r.mg_id,
+      dcm_id: r.dcm_id,
+      el_id: r.el_id,
+      cpe_name: 
+        if r.tid == "22" then "MLI_BKO_003"
+        else if r.tid == "21" then "PNG_KKO_003"
+        else if r.tid == "26" then "MLI_GOU_001"
+        else if r.tid == "30" then "MLI_GAQ_005"
+        else if r.tid == "31" then "MLI_TOM_006"
+        else if r.tid == "32" then "MLI_MEN_001"
+        else if r.tid == "33" then "MLI_KDL_002"         
+        else if r.tid == "37" then "MLI_TAR_001"         
+        else if r.tid == "42" then "PNG_LHR_004"         
+        else if r.tid == "44" then "PNG_BUK_002"         
+        else if r.tid == "47" then "DRC_KIB_001"         
+        else if r.tid == "58" then "UGA_ENT_012"         
+        else if r.tid == "59" then "MLI_ANE_001"         
+        else if r.tid == "61" then "PNG_PMB_012"
+        else if r.tid == "62" then "PNG_KGA_005"
+        else if r.tid == "64" then "SSD_TRT_001"  
+        else if r.tid == "65" then "SSD_YAM_001"  
+        else if r.tid == "68" then "SSD_JUB_010"    
+        else "Unknown"
+  }))
+  |> group(columns: ["tid", "cpe_name", "mg_id", "dcm_id", "el_id"])
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)
+  |> yield(name: "operational_status")
