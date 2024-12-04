@@ -1,0 +1,21 @@
+from(bucket: "ses_meo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r._measurement == "PG.CPE_STATUS")
+  |> filter(fn: (r) => r["_field"] == "access_status" or r["_field"] == "data_status" or r["_field"] == "operational_status")
+  |> filter(fn: (r) => r.mg_id == "2")
+  |> filter(fn: (r) => r["tid"] == "377" or r["tid"] == "435" )
+  |> map(fn: (r) => ({
+      _time: r._time,
+      _value: r._value,
+      tid: r.tid,
+      mg_id: r.mg_id,
+      dcm_id: r.dcm_id,
+      el_id: r.el_id,
+      cpe_name: 
+        if r.tid == "377" then "MAR-CEL-00001" else
+        if r.tid == "435" then "MAR-STE-00001" else
+        else "Unknown"
+  }))
+  |> group(columns: ["tid", "cpe_name", "mg_id", "dcm_id", "el_id"])
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)
+  |> yield(name: "operational_status")
