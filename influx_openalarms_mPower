@@ -1,0 +1,126 @@
+from(bucket: "ses_meo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "PG.CPE_STATUS" or r["_measurement"] == "SATCOM.CONST.TERMINALS_BASE_STATISTICS")
+  |> filter(fn: (r) => 
+// mPower O3B
+  r["tid"] == "109" or 
+  r["tid"] == "115" or 
+  r["tid"] == "157" or 
+  r["tid"] == "163" or 
+  r["tid"] == "200" or 
+  r["tid"] == "229" or  
+  r["tid"] == "235" or 
+  r["tid"] == "241" or
+  r["tid"] == "247" or
+  r["tid"] == "253" or
+  r["tid"] == "265" or
+  r["tid"] == "271" or  
+  r["tid"] == "277" or 
+  r["tid"] == "289" or 
+  r["tid"] == "295" or 
+  r["tid"] == "301" or 
+  r["tid"] == "325" or 
+  r["tid"] == "331" or
+  r["tid"] == "337" or
+  r["tid"] == "343" or
+  r["tid"] == "349" or 
+  r["tid"] == "353" or 
+  r["tid"] == "357" or 
+  r["tid"] == "361" or
+  r["tid"] == "369" or
+  r["tid"] == "373" or  
+  r["tid"] == "389" or 
+  r["tid"] == "393" or 
+  r["tid"] == "399" or 
+  r["tid"] == "403" or 
+  r["tid"] == "407" or 
+  r["tid"] == "411" or 
+  r["tid"] == "419" or 
+  r["tid"] == "423" or 
+  r["tid"] == "431" or
+  r["tid"] == "439" or
+  r["tid"] == "443" or
+  r["tid"] == "448" or
+  r["tid"] == "452" or
+  r["tid"] == "456" or
+  r["tid"] == "464" or
+  r["tid"] == "478" or
+  r["tid"] == "486" or
+  r["tid"] == "494" or
+  r["tid"] == "97" or
+// mPower Ready   
+  r["tid"] == "377" or 
+  r["tid"] == "435" or 
+  r["tid"] == "782") 
+  |> filter(fn: (r) => r["_field"] == "rtnRXLevel[0]" or r["_field"] == "rtnRXLevel[1]" or r["_field"] == "access_status" or r["_field"] == "data_status" or r["_field"] == "operational_status" or r["_field"] == "fwdThroughput[3]" or r["_field"] == "rtnThroughput[3]" or r["_field"] == "pingPolAverageDelay")
+  |> keep(columns: ["_time", "_field", "_value", "tid"])
+  |> aggregateWindow(every: 5m, fn: last, createEmpty: false)
+  |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+  |> map(fn: (r) => ({
+      _time: r._time,
+      tid: r.tid,
+      terminalName: 
+// mPower O3B
+        if r.tid == "109" then "MAR-FSY-00001"
+        else if r.tid == "115" then "MAR-DRM-00001"
+        else if r.tid == "157" then "MAR-SSD-00001"
+        else if r.tid == "163" then "MAR-SVW-00001"
+        else if r.tid == "169" then "MAR-SPD-00001"
+        else if r.tid == "200" then "MAR-ENC-00001"
+        else if r.tid == "229" then "MAR-DIV-00001"
+        else if r.tid == "235" then "MAR-FAN-00001"
+        else if r.tid == "241" then "MAR-ORC-00001"
+        else if r.tid == "247" then "MAR-POE-00001"
+        else if r.tid == "253" then "MAR-ARM-00001"
+        else if r.tid == "265" then "MAR-LIR-00001"
+        else if r.tid == "271" then "MAR-MUS-00001"
+        else if r.tid == "277" then "MAR-OPE-00001"
+        else if r.tid == "289" then "MAR-XP1-00001"
+        else if r.tid == "295" then "MAR-SIN-00001"
+        else if r.tid == "301" then "MAR-MAG-00001"
+        else if r.tid == "325" then "MAR-ILM-00001"
+        else if r.tid == "331" then "MAR-XP2-00001"
+        else if r.tid == "337" then "MAR-NAM-00001"
+        else if r.tid == "343" then "MAR-ROT-00001"
+        else if r.tid == "349" then "MAR-VNZ-00001"
+        else if r.tid == "353" then "MAR-VLR-00001"
+        else if r.tid == "357" then "MAR-FIR-00001"
+        else if r.tid == "361" then "MAR-SNR-00001"
+        else if r.tid == "369" then "MAR-BRI-00001"
+        else if r.tid == "373" then "MAR-MAR-00001"
+        else if r.tid == "389" then "MAR-PAN-00001"
+        else if r.tid == "393" then "MAR-TRE-00001"
+        else if r.tid == "399" then "MAR-MAC-00001"
+        else if r.tid == "403" then "MAR-BRZ-00001"
+        else if r.tid == "407" then "MAR-SME-00001"
+        else if r.tid == "411" then "MAR-SNS-00001"
+        else if r.tid == "419" then "MAR-TOS-00001"  
+        else if r.tid == "423" then "MAR-SPL-00001"
+        else if r.tid == "431" then "MAR-CON-00001"
+        else if r.tid == "439" then "MAR-RAD-00001"
+        else if r.tid == "443" then "MAR-ARV-00001"
+        else if r.tid == "448" then "MAR-PAR-00001"
+        else if r.tid == "452" then "MAR-LUM-00001"
+        else if r.tid == "456" then "MAR-WES-00001"
+        else if r.tid == "464" then "MAR-FRE-00001"
+        else if r.tid == "478" then "MAR-PRI-00001"
+        else if r.tid == "486" then "MAR-AZU-00001"
+        else if r.tid == "494" then "MAR-SOJ-00001"
+        else if r.tid == "97" then "MAR-WON-00001"
+// mPower Ready  
+        else if r.tid == "377" then "MAR-CEL-00001"		
+        else if r.tid == "435" then "MAR-STE-00001"
+        else if r.tid == "482" then "MAR-ECO-00001"                 
+        else "Unknown",
+      statusCheck: 
+        if r.access_status == 1 or r.data_status == 1 or r.operational_status == 1 then 1 
+        else if r["fwdThroughput[3]"] < 100 then 3 
+	      else if r["rtnThroughput[3]"] < 100 then 3
+        else if r["rtnRXLevel[0]"] < 8 or r["rtnRXLevel[1]"] < 8 then 2
+        else if r["fwdRXLevel[0]"] < 8 or r["fwdRXLevel[1]"] < 8 then 2
+        else if r["pingPolAverageDelay"] > 0 then 4
+        else 0       
+  }))
+  |> filter(fn: (r) => r.statusCheck > 0) // Filter out terminals with statusCheck == 0
+  |> keep(columns: ["_time", "terminalName", "statusCheck", "tid"])
+  |> group(columns: ["terminalName", "tid"])  // Each terminal becomes its own series
