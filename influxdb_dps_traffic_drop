@@ -1,0 +1,39 @@
+from(bucket: "ses_meo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "SATCOM.ALLRTE.CORE_BASE_STATISTICS")
+  |> filter(fn: (r) => r["baseStatisticElementType"] == "DPS")
+  |> filter(fn: (r) => r["_field"] == "fwdKbpsToGW")
+  |> filter(fn: (r) => not contains(value: r.dataCenter, set: ["6", "7", "39", "46", "49"]))
+  |> map(fn: (r) => ({
+      r with
+      dc_name:
+        if r.dataCenter == "1" then "DC1 (Sunset Beach)"
+        else if r.dataCenter == "2" then "DC2 (Phoenix)"
+        else if r.dataCenter == "3" then "DC3 (Longovilo)"
+        else if r.dataCenter == "4" then "DC4 (Dakar)"
+        else if r.dataCenter == "5" then "DC5 (Skarfia)"
+        else if r.dataCenter == "6" then "DC6 (UAE)"
+        else if r.dataCenter == "7" then "DC7 (BTZ)"         
+        else if r.dataCenter == "8" then "DC8 (Dubbo)"         
+        else if r.dataCenter == "9" then "DC9 (Merredin)" 
+        else if r.dataCenter == "12" then "DC12 (Hawley)"        
+        else if r.dataCenter == "13" then "DC13 (Goonhilly)"         
+        else if r.dataCenter == "14" then "DC14 (Dakar)"
+        else if r.dataCenter == "15" then "DC15 (Adelaide)"
+        else if r.dataCenter == "16" then "DC16 (Brewster)"	
+        else if r.dataCenter == "17" then "DC17 (Hong_Kong)"	
+        else if r.dataCenter == "20" then "DC20 (Eagle)"	
+        else if r.dataCenter == "31" then "DC31 (Sintra)"	
+        else if r.dataCenter == "32" then "DC32 (Kadapa)"	           
+        else if r.dataCenter == "37" then "DC37 (Cook Islands)"	 
+        else if r.dataCenter == "39" then "DC39 (Cayenne)"	 
+        else if r.dataCenter == "40" then "DC40 (Lurin)"	
+        else if r.dataCenter == "46" then "DC 46 (Cape Town)"
+        else if r.dataCenter == "47" then "DC 47 (Sintra)"
+        else if r.dataCenter == "49" then "DC 49 (Canary Islands)" 	
+        else "Unknown"
+      }))
+  |> group(columns: ["dc_name"]) // Group by dc_name
+  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)
+  |> keep(columns: ["_time", "dc_name", "_value"]) // Keep only relevant columns
+  |> yield(name: "last")
