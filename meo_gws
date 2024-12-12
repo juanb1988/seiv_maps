@@ -119,7 +119,56 @@
       "geometry": {
         "type": "Point",
         "coordinates": [-76.84, -12.29]
+      },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW66 - Dubai"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.79, 56.04]
       }
-    }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW46 - Cape Town"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-33.82, 18.81]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW39 - Cayenne"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.93, -52.29]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW46 - Cape Town"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-33.82, 18.81]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW5 - Santiago"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-33.95, -71.39]
+      }
+    },
   ]
 }
