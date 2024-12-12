@@ -154,16 +154,6 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "MEO - SES GW46 - Cape Town"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-33.82, 18.81]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "name": "MEO - SES GW5 - Santiago"
       },
       "geometry": {
