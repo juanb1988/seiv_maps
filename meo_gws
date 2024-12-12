@@ -119,6 +119,7 @@
       "geometry": {
         "type": "Point",
         "coordinates": [-76.84, -12.29]
+      }
       },
     {
       "type": "Feature",
@@ -169,6 +170,6 @@
         "type": "Point",
         "coordinates": [-33.95, -71.39]
       }
-    },
+    }
   ]
 }
