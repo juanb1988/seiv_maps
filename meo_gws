@@ -150,16 +150,6 @@
         "type": "Point",
         "coordinates": [4.93, -52.29]
       }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "MEO - SES GW5 - Santiago"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-33.95, -71.39]
-      }
     }
   ]
 }
