@@ -134,21 +134,21 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "MEO - SES GW46 - Cape Town"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [-33.82, 18.81]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "name": "MEO - SES GW39 - Cayenne"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [4.93, -52.29]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MEO - SES GW46 - Cape Town"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-33.82, 18.81]
       }
     }
   ]
