@@ -1,0 +1,17 @@
+from(bucket: "ses_meo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "SATCOM.CONST.TERMINALS_BASE_STATISTICS")
+//  |> filter(fn: (r) => r["tid"] == "163" or r["tid"] == "331" or r["tid"] == "229" or r["tid"] == "235" or r["tid"] == "241" or r["tid"] == "277" or r["tid"] == "289" or r["tid"] == "295" or r["tid"] == "325" or r["tid"] == "331"  or r["tid"] == "353"  or r["tid"] == "403" or r["tid"] == "407" or r["tid"] == "431" or r["tid"] == "435" or r["tid"] == "22" or r["tid"] == "21" or r["tid"] == "26" or r["tid"] == "30" or r["tid"] == "31" or r["tid"] == "32" or r["tid"] == "33" or r["tid"] == "37" or r["tid"] == "42" or r["tid"] == "44" or r["tid"] == "47" or r["tid"] == "58" or r["tid"] == "59" or r["tid"] == "61" or r["tid"] == "62" or r["tid"] == "66" or r["tid"] == "373" or r["tid"] == "377" or r["tid"] == "399" )
+  |> filter(fn: (r) => r["_field"] == "latitude" or
+                       r["_field"] == "longitude" or
+                       r["_field"] == "heading" or
+                       r["_field"] == "rtnSliceID" or
+                       r["_field"] == "fwdCarrierID" or
+                       r["_field"] == "beamID")
+  |> filter(fn: (r) => r["freeText1"] == "cruise" or r["freeText1"] == "fixed data" and r["freeText2"] == "production")
+  |> drop(columns: ["dataCenter", "gateway", "swVersion", "rtnSliceID", "fwdCarrierID", "beamID"])
+  |> keep(columns: ["_field", "_time", "_value", "terminalID", "tid", "terminalName"])
+  |> aggregateWindow(every: 10m, fn: mean, createEmpty: false)
+  |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+  |> group()
+//  |> keep(columns: ["latitude", "longitude", "terminalID", "terminalName"])
