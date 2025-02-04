@@ -1,0 +1,124 @@
+from(bucket: "ses_meo")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "PG.CPE_STATUS" or r["_measurement"] == "SATCOM.CONST.TERMINALS_BASE_STATISTICS")
+  |> filter(fn: (r) => 
+// O3B Classic
+  r["tid"] == "21" or 
+  r["tid"] == "22" or
+  r["tid"] == "26" or
+  r["tid"] == "30" or  
+  r["tid"] == "31" or  
+  r["tid"] == "32" or  
+  r["tid"] == "33" or  
+  r["tid"] == "37" or  
+  r["tid"] == "42" or  
+  r["tid"] == "44" or
+  r["tid"] == "47" or
+  r["tid"] == "58" or
+  r["tid"] == "59" or
+  r["tid"] == "61" or
+  r["tid"] == "62" or
+  r["tid"] == "64" or  
+  r["tid"] == "65" or
+  r["tid"] == "67" or
+  r["tid"] == "68" or
+// mPower FixedData 
+  r["tid"] == "16" or 
+  r["tid"] == "161" or 
+  r["tid"] == "19" or 
+  r["tid"] == "26" or 
+  r["tid"] == "27" or 
+  r["tid"] == "28" or 
+  r["tid"] == "30" or 
+  r["tid"] == "31" or 
+  r["tid"] == "33" or 
+  r["tid"] == "34" or 
+  r["tid"] == "37" or 
+  r["tid"] == "38" or 
+  r["tid"] == "40" or 
+  r["tid"] == "42" or 
+  r["tid"] == "43" or 
+  r["tid"] == "46" or 
+  r["tid"] == "47" or 
+  r["tid"] == "48" or 
+  r["tid"] == "49" or 
+  r["tid"] == "53" or 
+  r["tid"] == "56" or 
+  r["tid"] == "58" or
+  r["tid"] == "67" or   
+  r["tid"] == "68" or 
+  r["tid"] == "76" or 
+  r["tid"] == "87" or
+  r["tid"] == "88" or
+  r["tid"] == "90")  
+  |> filter(fn: (r) => r["_field"] == "rtnRXLevel[0]" or r["_field"] == "rtnRXLevel[1]" or r["_field"] == "access_status" or r["_field"] == "data_status" or r["_field"] == "operational_status" or r["_field"] == "fwdThroughput[3]" or r["_field"] == "rtnThroughput[3]" or r["_field"] == "pingPolAverageDelay")
+  |> keep(columns: ["_time", "_field", "_value", "tid"])
+  |> aggregateWindow(every: 5m, fn: last, createEmpty: false)
+  |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+  |> map(fn: (r) => ({
+      _time: r._time,
+      tid: r.tid,
+      terminalName:   
+// O3B Classic
+        if r.tid == "21" then "PNG_KKO"
+		else if r.tid == "22" then "MLI_BKO_003"
+        else if r.tid == "26" then "MLI_GOU_001"
+        else if r.tid == "30" then "MLI_GAQ_005"
+        else if r.tid == "31" then "MLI_TOM_006"
+        else if r.tid == "32" then "MLI_MEN_001"
+        else if r.tid == "33" then "MLI_KDL_002"         
+        else if r.tid == "37" then "MLI_TAR_001"         
+        else if r.tid == "42" then "PNG_LHR_004"         
+        else if r.tid == "44" then "PNG_BUK_002"         
+        else if r.tid == "47" then "DRC_KIB_001"         
+        else if r.tid == "58" then "UGA_ENT_012"         
+        else if r.tid == "59" then "MLI_ANE_001"         
+        else if r.tid == "61" then "PNG_PMB_012"
+        else if r.tid == "62" then "PNG_KGA_005"
+        else if r.tid == "64" then "SSD_TRT_001"  
+        else if r.tid == "65" then "SSD_YAM_001"
+        else if r.tid == "67" then "PNG_POR_001"  		
+        else if r.tid == "68" then "SSD_JUB_010"    
+// mPower FixedData		
+        else if r.tid == "16" then "TWN-000-00048"
+        else if r.tid == "161" then "AUS-000-00008"
+        else if r.tid == "19" then "RIG-UNK-00289"
+        else if r.tid == "26" then "TWN-000-00043"
+        else if r.tid == "27" then "TWN-000-00057"
+        else if r.tid == "28" then "TWN-000-00052"
+        else if r.tid == "30" then "NFK-000-00011"
+        else if r.tid == "31" then "NFK-000-00007-03"
+        else if r.tid == "33" then "TWN-000-00040"
+        else if r.tid == "34" then "TWN-000-00027"
+        else if r.tid == "37" then "CKH-000-00015"
+        else if r.tid == "38" then "CKH-000-00012"
+        else if r.tid == "39" then "WAK-WKI-0003"
+        else if r.tid == "40" then "CKH-000-00010"
+        else if r.tid == "42" then "CKH-000-00011"
+        else if r.tid == "43" then "D-000-00013-01"
+        else if r.tid == "46" then "AUS-000-00018"
+        else if r.tid == "47" then "PNG-000-00067-01"
+        else if r.tid == "48" then "AUS-000-00020"
+        else if r.tid == "49" then "RIG-UNK-00293"
+        else if r.tid == "53" then "WAK-WKI-00002"
+        else if r.tid == "56" then "TWN-000-00020"
+        else if r.tid == "58" then "NRU-YAR-0008"
+        else if r.tid == "68" then "TWN-000-00025"
+        else if r.tid == "76" then "PHL-000-00020"
+        else if r.tid == "87" then "PHL-000-00019"
+        else if r.tid == "88" then "TLS-000-00005-01"
+        else if r.tid == "88" then "TLS-000-00005-01"
+        else if r.tid == "90" then "RIG-UNK-332"
+        else "Unknown",
+      statusCheck: 
+        if r.access_status == 1 or r.data_status == 1 or r.operational_status == 1 then 1 
+        else if r["fwdThroughput[3]"] < 100 then 3 
+	      else if r["rtnThroughput[3]"] < 100 then 3
+        else if r["rtnRXLevel[0]"] < 8 or r["rtnRXLevel[1]"] < 8 then 2
+        else if r["fwdRXLevel[0]"] < 8 or r["fwdRXLevel[1]"] < 8 then 2
+        else if r["pingPolAverageDelay"] > 0 then 4
+        else 0       
+  }))
+  |> filter(fn: (r) => r.statusCheck > 0) // Filter out terminals with statusCheck == 0
+  |> keep(columns: ["_time", "terminalName", "statusCheck", "tid"])
+  |> group(columns: ["terminalName", "tid"])  // Each terminal becomes its own series
